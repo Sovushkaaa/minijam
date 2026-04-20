@@ -26,7 +26,7 @@ jobs:
           gradle-version: '8.4'
 
       - name: Run Checkstyle
-        run: gradle checkstyle --stacktrace
+        run: gradle checkstyleMain --stacktrace
 
   build:
     name: Build JAR
