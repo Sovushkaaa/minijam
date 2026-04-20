@@ -62,6 +62,8 @@ tasks.named('test') {
 checkstyle {
     toolVersion = '10.12.1'
     config = rootProject.resources.text.fromUri("https://raw.githubusercontent.com/checkstyle/checkstyle/checkstyle-10.12.1/src/main/resources/google_checks.xml")
+    ignoreFailures = false
+    maxWarnings = 0
 }
 
 sourceSets {
