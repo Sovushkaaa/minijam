@@ -8,30 +8,50 @@ on:
 
 jobs:
   checkstyle:
-    name: Checkstyle
+    name: Checkstyle (Google Java Style)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew checkstyle --stacktrace
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.4'
+
+      - name: Run Checkstyle
+        run: gradle checkstyle --stacktrace
 
   build:
     name: Build JAR
     runs-on: ubuntu-latest
     needs: checkstyle
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew clean build --stacktrace --info --build-cache
-      - uses: actions/upload-artifact@v4
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.4'
+
+      - name: Build with Gradle
+        run: gradle clean build --stacktrace --info --build-cache
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
         with:
           name: minijam-jar
           path: build/libs/*.jar
@@ -42,11 +62,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - run: echo "Tests passed (mock)"
+      - name: Mock test stage
+        run: echo "✅ Tests passed (mock stage)"
 
   deploy:
     name: Deploy (Mock)
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - run: echo "Deployed successfully (mock)"
+      - name: Mock deploy stage
+        run: echo "🚀 Deployed successfully (mock stage)"
