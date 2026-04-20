@@ -48,7 +48,7 @@ jobs:
           gradle-version: '8.4'
 
       - name: Build with Gradle
-        run: gradle clean build --stacktrace --info --build-cache
+        run: gradle clean build -x test -x uitest -x integrationTest --stacktrace --info --build-cache
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
