@@ -30,6 +30,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew          
       - run: ./gradlew clean build --stacktrace --info --build-cache
       - uses: actions/upload-artifact@v4
         with:
@@ -50,3 +51,16 @@ jobs:
     needs: test
     steps:
       - run: echo "Deployed successfully (mock)"
+      
+  checkstyle:
+    name: Checkstyle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew          
+      - run: ./gradlew checkstyle --stacktrace
